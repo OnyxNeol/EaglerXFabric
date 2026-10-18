@@ -60,9 +60,9 @@ A way to make Fabric mods like Lithium work in servers
 
 ## 📦 Downloads & Deliverables
 
-* 💾 [Download Latest Release ZIP](https://github.com)
-* 🛠️ [Source Code Backup](https://github.com)
-* 📜 [Report an Issue / Bug Tracker](https://github.com)
+* 💾 [Download Latest Release ZIP](EaglerXFabric.zip)
+* 🛠️ Source Code Backup(no link yet)
+* 📜 [Report an Issue / Bug Tracker (just go to disscussions
 
 ---
 
