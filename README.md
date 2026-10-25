@@ -48,7 +48,7 @@ Want to tweak settings? Here’s a sample config.json:
   },
   "resource_pack": {
     "auto_prompt": true,
-    "direct_download_url": "https://assets.yourserver.net/EaglerPack.zip"
+    "direct_download_url": "sha256:65814b470ca9cd7761396852dc87685a8f482c316b62a0a6ef51fe77266052be"
   },
   "security": {
     "max_connections_per_ip": 3,
