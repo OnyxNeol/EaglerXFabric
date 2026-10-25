@@ -36,7 +36,35 @@ Step 4: Upload the EaglerXFabric plugin.
 Drop the latest EaglerXFabric .jar file into Plugins. Once it’s processed, you’ll get a new upload area courtesy of the plugin.
 
 Step 5: Upload Fabric mods & restart.
-Add your Fabric mods in the generated section, then restart your server. That’s it—now you’ve got Fabric mod support.
+Add your Fabric mods in the terminal using commands, then restart your server. That’s it—now you’ve got Fabric mod support.
+commands to upload mods : 
+1. One-liner (Linux/macOS terminal, and Windows PowerShell via curl.exe):
+
+curl -X POST \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  --data-binary "@MyMod-1.0.0.jar" \
+  "http://127.0.0.1:25565/api/mods?name=MyMod-1.0.0.jar"
+
+2. Pure PowerShell (if you prefer native):
+
+$token = "YOUR_TOKEN"
+Invoke-RestMethod -Method Post `
+  -Uri "http://127.0.0.1:25565/api/mods?name=MyMod-1.0.0.jar" `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -InFile "C:\path\to\MyMod-1.0.0.jar"
+
+Swap in:
+
+YOUR_TOKEN → the authToken from eaglerd-plugin.json
+25565 → your listenPort
+the name= parameter → the filename you want in mods/
+3. Zero-command alternative: open http://localhost:25565/upload in a browser and drag the jar onto the page — same guard rails, prettier.
+
+Then restart the Fabric server (mods load at boot, not live):
+
+From the server console: stop, then start it again
+On a panel host: click Restart
+Note: eaglerd restart only bounces the gateway, not the backend, so use the panel/full restart for mod loads
 
 Want to tweak settings? Here’s a sample config.json:
 
