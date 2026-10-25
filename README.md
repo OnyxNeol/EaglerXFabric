@@ -1,76 +1,45 @@
-# 🚀 EaglerXFabric
+EaglerXFabric is a server-side bridge that lets browser-based WebGL clients connect straight to Fabric servers—no client mods needed. The framework uses Fabric mixins, custom packet routing, and automatic asset delivery, so you get smooth performance, custom items, animated textures, and modular UI overlays. It’s all about bringing a rich experience while keeping latency low.
 
-**EaglerXFabric** is an advanced server-side bridge framework designed to connect browser-based WebGL clients directly to modern, optimized **Fabric** server environments. By leveraging server-side Fabric mixins, custom payload routing, and automated asset delivery, EaglerXFabric brings a feature-rich, low-latency experience—complete with custom items, `.mcmeta` animations, and modular UI/HUD overlays—without requiring client-side modifications.
+Key features? Here’s what you get:
 
-## ✨ Key Features
+- Seamless connection between Eaglercraft browser clients and Fabric servers.
+- Automatic resource pack delivery, with direct download options that sidestep those annoying browser pop-ups.
+- Support for custom models, fonts, and animated textures driven by the server—so custom items and HUDs look just right.
+- Secure WebSocket (wss://) support with TLS/SSL. Your connection stays safe from packet sniffing, tampering, or session hijacking.
+- Works with server-side anti-cheat engines like GrimAC to stomp out botting and movement exploits.
+- Built-in support for CDN offloading (Cloudflare, AWS S3, etc.)—so you can scale up fast for big player surges.
 
-* **⚡ Seamless WebGL Bridge:** Connect Eaglercraft browser clients directly to high-performance Fabric game servers.
+Here’s how it all fits together:
 
-* **📦 Automatic Asset Delivery:** Built-in resource pack delivery system featuring direct-download fallbacks to bypass browser pop-up restrictions.
+1. The browser connects to the gateway with a secure WebSocket.
+2. The server pushes resource packs via direct link or prompt so downloads work smoothly across all modern browsers.
+3. The server sends custom PluginMessage packets that update UI, render items, and overlay HUD elements on the fly.
 
-* **🎨 Custom Models & Animations:** Full support for `CustomModelData`, custom font glyphs, and animated `.mcmeta` textures on server-driven items and HUDs.
+What do you need before starting?
 
-* **🔒 Enterprise-Grade Security:** Supports secure WebSocket connections (`wss://`) over TLS/SSL, shielding connections against packet sniffing, tampering, and session hijacking.
+- Java 17 or 21 and up.
+- Fabric server running Minecraft 1.20+.
+- SSL/TLS termination set up via reverse proxy (like Nginx or HAProxy) for public wss:// connections.
 
-* **🛡️ Server-Side Anti-Cheat Friendly:** Integrates smoothly with server-authoritative Fabric anti-cheat engines (e.g., GrimAC) to eliminate botting and movement exploits.
+Setting things up? This guide walks through using Sealos Eaglercraft hosting. If you're hosting elsewhere or self-hosting, some steps might look a bit different.
 
-* **🌐 CDN Offloading Support:** Easily configure external asset hosting (Cloudflare, AWS S3) to handle high-concurrency player surges.
+Step 1: Create your server container.
+Head to the Sealos Eaglercraft Hosting Blog and follow their instructions for spinning up your Eaglercraft server.
 
-## 🛠️ Architecture Overview
+Step 2: Access the admin panel.
+In your Sealos Docker project, find the Public Access block—there are three addresses split over two sections. Click the Admin address, or copy it and paste into your browser.
 
-```
-┌───────────────────────────┐         ┌───────────────────────────┐
-│   WebGL Browser Client    │  wss:// │     EaglerXFabric Gateway │
-│  (Custom Items & HUD)     ├─────────►  (Packet Translation)     │
-└───────────────────────────┘         └─────────────┬─────────────┘
-                                                    │
-                                                    ▼
-                                      ┌───────────────────────────┐
-                                      │    Fabric Game Server     │
-                                      │   (Mixins & Anti-Cheat)   │
-                                      └───────────────────────────┘
-```
+Step 3: Go to system plugins.
+Log in with your RCON password. Once inside, dive into System Settings and scroll to Plugins.
 
-1. **Handshake & Auth:** The client connects over a secure WebSocket (`wss://`) gateway.
+Step 4: Upload the EaglerXFabric plugin.
+Drop the latest EaglerXFabric .jar file into Plugins. Once it’s processed, you’ll get a new upload area courtesy of the plugin.
 
-2. **Resource Syncing:** The server offers the custom asset pack via direct link/WebSocket prompt to ensure 100% download compatibility across all modern browser engines.
+Step 5: Upload Fabric mods & restart.
+Add your Fabric mods in the generated section, then restart your server. That’s it—now you’ve got Fabric mod support.
 
-3. **Payload Routing:** Custom `PluginMessage` packets sync UI state, custom item rendering, and HUD overlays dynamically.
+Want to tweak settings? Here’s a sample config.json:
 
-## 📋 Prerequisites
-
-* **Java 17 / 21** or higher.
-
-* **Fabric Server** running Minecraft `1.20+`.
-
-* A reverse proxy (e.g., **Nginx**, **HAProxy**) or platform ingress configured for SSL/TLS termination when serving over public `wss://`.
-
-## 🛠️ Steps to Setup
-
-> ⚠️ **Note:** This tutorial specifically uses **Sealos Eaglercraft hosting**. Steps and interface navigation may differ if you are using a different hosting platform or self-hosting on a custom VPS/dedicated server.
-
-### **Step 1: Create Your Server Container**
-Go to the [Sealos Eaglercraft Hosting Blog](https://sealos.io/blog/eaglercraft-server/) and follow the steps to create your Eaglercraft server instance.
-
-### **Step 2: Access the Admin Panel**
-Go to your Eaglercraft server Docker project in Sealos and locate the **Public Access** block (which displays three addresses across two sections):
-* Click the address listed under **Admin**.
-* *Note:* If clicking does not open the website directly, the address will be copied to your clipboard—open a new tab in your browser and paste the link into the address bar.
-
-### **Step 3: Navigate to System Plugins**
-Enter your **RCON password** (configured during Step 1) to log into the admin panel. Once inside:
-1. Go to **System Settings**.
-2. Scroll down to the **Plugins** section.
-
-### **Step 4: Upload the EaglerXFabric Plugin**
-Upload the latest release `.jar` file of **EaglerXFabric** into the Plugins section. Once processed, navigate to the newly generated upload area created by the plugin.
-
-### **Step 5: Deploy Mods & Restart**
-Upload your desired Fabric mods into the generated section, then restart your Paper/Fabric instance. Done! You now officially have Fabric mod support running on your server!
-
-## ⚙️ Configuration (`config.json`)
-
-```json
 {
   "websocket": {
     "bind_address": "0.0.0.0",
@@ -86,18 +55,7 @@ Upload your desired Fabric mods into the generated section, then restart your Pa
     "rate_limit_handshakes": true
   }
 }
-```
 
-## 🎨 Custom Items & UI Customization
+For custom items and UI overlays, it’s pretty simple. Stick your textures and .mcmeta files in config/eaglerxfabric/assets/. Set up your model overrides in models.json. Restart the server, and resource packs plus checksums update automatically.
 
-EaglerXFabric builds server-side resource packs on startup. To add custom items or UI overlays:
-
-1. Place your textures and `.mcmeta` files in `config/eaglerxfabric/assets/`.
-
-2. Map your model data overrides in `config/eaglerxfabric/models.json`.
-
-3. Restart the server; the resource pack zip and checksums will regenerate automatically.
-
-## 📜 License
-
-Distributed under the **MIT License**. See `LICENSE` for more information.
+EaglerXFabric’s MIT License keeps things nice and open. Check the LICENSE file for details.
